@@ -1,0 +1,57 @@
+syntax = "proto3";
+package nobel;
+
+
+message CountByCategoryRequest {
+  string category = 1;
+  int32 year_start = 2;
+  int32 year_end = 3;
+}
+message CountByYearRequest {
+  int32 year = 1;
+}
+message CountResponse {
+  int32 total = 1;
+}
+
+message SearchByFirstnameRequest {
+  string firstname = 1;
+}
+message Hit {
+  int32 year = 1;
+  string category = 2;
+  string firstname = 3;
+  string surname = 4;
+}
+message SearchResults {
+  repeated Hit hits = 1;
+}
+
+motivation keyword count 
+message CountByMotivationRequest {
+  string keyword = 1; // e.g., "regulation"
+}
+
+
+message FullNameRequest {
+  string firstname = 1;
+  string surname  = 2;
+}
+message FullNameHit {
+  int32 year = 1;
+  string category = 2;
+  string motivation = 3;
+}
+message FullNameResults {
+  repeated FullNameHit hits = 1;
+}
+
+service NobelQuery {
+  rpc CountByCategory(CountByCategoryRequest) returns (CountResponse);
+  rpc CountByYear(CountByYearRequest) returns (CountResponse);
+  rpc SearchByFirstname(SearchByFirstnameRequest) returns (SearchResults);
+
+
+  rpc CountByMotivation(CountByMotivationRequest) returns (CountResponse);
+  rpc GetByFullName(FullNameRequest) returns (FullNameResults);
+}
